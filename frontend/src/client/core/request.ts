@@ -1,9 +1,9 @@
 import axios from "axios"
 import type {
   AxiosError,
+  AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosInstance,
 } from "axios"
 
 import { ApiError } from "./ApiError"
@@ -21,7 +21,7 @@ export const isStringWithValue = (value: unknown): value is string => {
   return isString(value) && value !== ""
 }
 
-export const isBlob = (value: any): value is Blob => {
+export const isBlob = (value: unknown): value is Blob => {
   return value instanceof Blob
 }
 
@@ -55,15 +55,21 @@ export const getQueryString = (params: Record<string, unknown>): string => {
     }
 
     if (Array.isArray(value)) {
-      value.forEach((v) => encodePair(key, v))
+      for (const v of value) {
+        encodePair(key, v)
+      }
     } else if (typeof value === "object") {
-      Object.entries(value).forEach(([k, v]) => encodePair(`${key}[${k}]`, v))
+      for (const [k, v] of Object.entries(value) as Array<[string, unknown]>) {
+        encodePair(`${key}[${k}]`, v)
+      }
     } else {
       append(key, value)
     }
   }
 
-  Object.entries(params).forEach(([key, value]) => encodePair(key, value))
+  for (const [key, value] of Object.entries(params)) {
+    encodePair(key, value)
+  }
 
   return qs.length ? `?${qs.join("&")}` : ""
 }
@@ -74,8 +80,8 @@ const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
   const path = options.url
     .replace("{api-version}", config.VERSION)
     .replace(/{(.*?)}/g, (substring: string, group: string) => {
-      if (options.path?.hasOwnProperty(group)) {
-        return encoder(String(options.path[group]))
+      if (Object.prototype.hasOwnProperty.call(options.path, group)) {
+        return encoder(String(options.path && (options.path[group] as string)))
       }
       return substring
     })
@@ -98,15 +104,18 @@ export const getFormData = (
       }
     }
 
-    Object.entries(options.formData)
-      .filter(([, value]) => value !== undefined && value !== null)
-      .forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((v) => process(key, v))
-        } else {
-          process(key, value)
+    Object.entries(options.formData).filter(
+      ([, value]) => value !== undefined && value !== null,
+    )
+    for (const [key, value] of Object.entries(options.formData)) {
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          process(key, v)
         }
-      })
+      } else {
+        process(key, value)
+      }
+    }
 
     return formData
   }
@@ -143,20 +152,20 @@ export const getHeaders = async (
   })
     .filter(([, value]) => value !== undefined && value !== null)
     .reduce(
-      (headers, [key, value]) => ({
-        ...headers,
-        [key]: String(value),
-      }),
+      (headers, [key, value]) => {
+        headers[key] = String(value)
+        return headers
+      },
       {} as Record<string, string>,
     )
 
   if (isStringWithValue(token)) {
-    headers["Authorization"] = `Bearer ${token}`
+    headers.Authorization = `Bearer ${token}`
   }
 
   if (isStringWithValue(username) && isStringWithValue(password)) {
     const credentials = base64(`${username}:${password}`)
-    headers["Authorization"] = `Basic ${credentials}`
+    headers.Authorization = `Basic ${credentials}`
   }
 
   if (options.body !== undefined) {

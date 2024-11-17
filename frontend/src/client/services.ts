@@ -4,20 +4,20 @@ import { request as __request } from "./core/request"
 
 import type {
   Body_login_login_access_token,
+  ItemCreate,
+  ItemPublic,
+  ItemUpdate,
+  ItemsPublic,
   Message,
   NewPassword,
   Token,
-  UserPublic,
   UpdatePassword,
   UserCreate,
+  UserPublic,
   UserRegister,
-  UsersPublic,
   UserUpdate,
   UserUpdateMe,
-  ItemCreate,
-  ItemPublic,
-  ItemsPublic,
-  ItemUpdate,
+  UsersPublic,
 } from "./models"
 
 export type TDataLoginAccessToken = {
@@ -33,6 +33,7 @@ export type TDataRecoverPasswordHtmlContent = {
   email: string
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class LoginService {
   /**
    * Login Access Token
@@ -50,7 +51,7 @@ export class LoginService {
       formData: formData,
       mediaType: "application/x-www-form-urlencoded",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -85,7 +86,7 @@ export class LoginService {
         email,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -106,7 +107,7 @@ export class LoginService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -128,7 +129,7 @@ export class LoginService {
         email,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -161,6 +162,7 @@ export type TDataDeleteUser = {
   userId: string
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class UsersService {
   /**
    * Read Users
@@ -180,7 +182,7 @@ export class UsersService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -201,7 +203,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -248,7 +250,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -269,7 +271,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -290,7 +292,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -312,7 +314,7 @@ export class UsersService {
         user_id: userId,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -336,7 +338,7 @@ export class UsersService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -356,7 +358,7 @@ export class UsersService {
         user_id: userId,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -366,6 +368,7 @@ export type TDataTestEmail = {
   emailTo: string
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class UtilsService {
   /**
    * Test Email
@@ -382,7 +385,7 @@ export class UtilsService {
         email_to: emailTo,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -418,6 +421,7 @@ export type TDataDeleteItem = {
   id: string
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class ItemsService {
   /**
    * Read Items
@@ -437,7 +441,7 @@ export class ItemsService {
         limit,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -458,7 +462,7 @@ export class ItemsService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -478,7 +482,7 @@ export class ItemsService {
         id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -502,7 +506,7 @@ export class ItemsService {
       body: requestBody,
       mediaType: "application/json",
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
@@ -522,7 +526,7 @@ export class ItemsService {
         id,
       },
       errors: {
-        422: `Validation Error`,
+        422: "Validation Error",
       },
     })
   }
